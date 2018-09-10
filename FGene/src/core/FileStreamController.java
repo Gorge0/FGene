@@ -23,12 +23,13 @@ import core.enums.Powers;
 public class FileStreamController {
 	
 	private static final Path backupAddress = Paths.get("C:\\Users\\Anderson\\Desktop\\");
+	private static final String rootDir = "C:\\FGene\\"; 
 
 	public void start(){
 		BufferedReader bf;
 		try {
 			if(FGene.getAllEquipes().isEmpty()){
-				bf = new BufferedReader(new FileReader(System.getProperty("user.dir")+"\\start.txt"));
+				bf = new BufferedReader(new FileReader(rootDir+"start.txt"));
 				String line;
 				while((line = bf.readLine()) != null){
 					String[] div = line.split(",");
@@ -52,9 +53,9 @@ public class FileStreamController {
 	
 	public void save(){
 		try{
-	         FileOutputStream pilotsOut = new FileOutputStream(System.getProperty("user.dir")+"\\saves\\pilots.gene");
-	         FileOutputStream equipesOut = new FileOutputStream(System.getProperty("user.dir")+"\\saves\\equipes.gene");
-	         FileOutputStream seasonsOut = new FileOutputStream(System.getProperty("user.dir")+"\\saves\\seasons.gene");
+	         FileOutputStream pilotsOut = new FileOutputStream(rootDir+"saves\\pilots.gene");
+	         FileOutputStream equipesOut = new FileOutputStream(rootDir+"saves\\equipes.gene");
+	         FileOutputStream seasonsOut = new FileOutputStream(rootDir+"saves\\seasons.gene");
 	         
 	         ObjectOutputStream out = new ObjectOutputStream(equipesOut);
 	         out.writeObject(FGene.getAllEquipes());
@@ -87,9 +88,9 @@ public class FileStreamController {
 	
 	public boolean load(){
 	      try{
-	         FileInputStream pilotsIn = new FileInputStream(System.getProperty("user.dir")+"\\saves\\pilots.gene");
-	         FileInputStream equipesIn = new FileInputStream(System.getProperty("user.dir")+"\\saves\\equipes.gene");
-	         FileInputStream seasonsIn = new FileInputStream(System.getProperty("user.dir")+"\\saves\\seasons.gene");
+	         FileInputStream pilotsIn = new FileInputStream(rootDir+"saves\\pilots.gene");
+	         FileInputStream equipesIn = new FileInputStream(rootDir+"saves\\equipes.gene");
+	         FileInputStream seasonsIn = new FileInputStream(rootDir+"saves\\seasons.gene");
 	         
 	         ObjectInputStream in = new ObjectInputStream(equipesIn);
 	         FGene.setAllEquipes((Vector<Equipe>) in.readObject());
@@ -128,7 +129,7 @@ public class FileStreamController {
 	
 	public ArrayList<Piloto> readDriverFiles() {
 		try {
-			File[] files = new File(System.getProperty("user.dir")+"\\Drivers\\").listFiles();
+			File[] files = new File(rootDir+"Drivers\\").listFiles();
 			ArrayList<Piloto> ps = new ArrayList<>();
 			for(File f : files){
 				Piloto p = new Piloto();
@@ -171,9 +172,9 @@ public class FileStreamController {
 	
 	public void updateDriverAI(Piloto p) {
 		try {
-			//new File(System.getProperty("user.dir")+"\\DriversSub\\").mkdir();
-			File file = new File(System.getProperty("user.dir")+"\\Drivers\\"+p.name+".drv");
-			//FileOutputStream out = new FileOutputStream(System.getProperty("user.dir")+"\\DriversSub\\"+p.name+".drv");
+			//new File(rootDir+"DriversSub\\").mkdir();
+			File file = new File(rootDir+"Drivers\\"+p.name+".drv");
+			//FileOutputStream out = new FileOutputStream(rootDir+"DriversSub\\"+p.name+".drv");
 			//FileInputStream in = new FileInputStream(file);
 			//byte[] b = new byte[100];
 			
@@ -204,7 +205,7 @@ public class FileStreamController {
 	
 	public void updateCarFile(){
 		try {
-			File file = new File(System.getProperty("user.dir")+"\\Cars\\cars.car");
+			File file = new File(rootDir+"Cars\\cars.car");
 			String[] equipes = {"Ferrari","Mclaren","Williams","Mercedez","Honda","Renault","Ford","Fiat","Hyunday","BMW","Kia","Toyota","Nissan",
 					"Volkswagen","Chevrolet","Jaguar","Audi","Lamborghini"};
 			Integer[] addresses = {5384,8,22856,16136,9416,18824,8072,6728,10760,2696,13448,20168,17480,21512,4040,12104,1352,14792};
@@ -241,8 +242,8 @@ public class FileStreamController {
 
 	
 	public void movePilotoFile(Piloto p){
-		File fileSource = new File(System.getProperty("user.dir")+"\\Drivers\\"+p.name+".drv");
-		File fileTarget = new File(System.getProperty("user.dir")+"\\Backup_History\\Drivers_old\\"+p.name+".drv");
+		File fileSource = new File(rootDir+"Drivers\\"+p.name+".drv");
+		File fileTarget = new File(rootDir+"Backup_History\\Drivers_old\\"+p.name+".drv");
 		try {
 			Files.move(fileSource.toPath(), fileTarget.toPath(), StandardCopyOption.ATOMIC_MOVE);
 		} catch (IOException e) {

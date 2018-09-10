@@ -181,32 +181,32 @@ public class Season implements Serializable{
 			pFGene.pureSeason = new Stats2(pFGene.season);
 			
 			if(this.playoffs.contains(p)){
-				pFGene.playoffs++;
+				pFGene.pPlayoffs++;
 				e.playoffs++;
 				if(this.playoffs.indexOf(p) == 0){
-					pFGene.pChamp++;
+					pFGene.pGold++;
 					e.pChamps++;
 				}
 				if(this.playoffs.indexOf(p) == 1){
-					pFGene.pRunnerUp++;
+					pFGene.pSilver++;
 					e.pRunnerUps++;
 				}
 			}
 			if(this.playoffsEquipe.contains(p)){
-				pFGene.playoffs++;
+				pFGene.ePlayoffs++;
 				if(flagP){
 					e.playoffs++;
 					flagP = false;
 				}
 				if(this.getEqsPlayoff().indexOf(FGene.getEquipeOfPiloto(this.equipes, p)) == 0){
-					pFGene.eChamp++;
+					pFGene.eGold++;
 					if(flagC){
 						e.eChamps++;
 						flagC = false;
 					}
 				}
 				if(this.getEqsPlayoff().indexOf(FGene.getEquipeOfPiloto(this.equipes, p)) == 1){
-					pFGene.eRunnerUp++;
+					pFGene.eSilver++;
 					if(flagR){
 						e.eRunnerUps++;
 						flagR = false;

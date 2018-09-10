@@ -15,9 +15,10 @@ public class WebContext implements ServletContextListener{
 		if(!ctrl.load()){
 			ctrl.start();
 		}
+		Initializer.updatePilots();
 	}
 	
 	public void contextDestroyed(ServletContextEvent event) {
-		ctrl.save();
+		//ctrl.save();
 	}
 }

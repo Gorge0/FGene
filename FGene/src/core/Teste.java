@@ -219,15 +219,15 @@ public class Teste {
 			
 			for(Piloto p : FGene.getAllPilots()){
 				p.seasons = 1;
-				p.eChamp = 0;
-				p.eRunnerUp = 0;
-				p.pChamp = 0;
-				p.pRunnerUp = 0;
+				p.eGold = 0;
+				p.eSilver = 0;
+				p.pGold = 0;
+				p.pSilver = 0;
 				p.playoffEquipe = new Stats();
 			}
 			
-			FGene.getPiloto(FGene.getAllSeasons().get(1).playoffs.get(0).name).pChamp++;
-			FGene.getPiloto(FGene.getAllSeasons().get(1).playoffs.get(1).name).pRunnerUp++;
+			FGene.getPiloto(FGene.getAllSeasons().get(1).playoffs.get(0).name).pGold++;
+			FGene.getPiloto(FGene.getAllSeasons().get(1).playoffs.get(1).name).pSilver++;
 			FGene.getEquipe(FGene.getEquipeOfPiloto(FGene.getAllSeasons().get(1).equipes, FGene.getAllSeasons().get(1).playoffs.get(0)).name).pChamps++;
 			FGene.getEquipe(FGene.getEquipeOfPiloto(FGene.getAllSeasons().get(1).equipes, FGene.getAllSeasons().get(1).playoffs.get(1)).name).pRunnerUps++;
 			

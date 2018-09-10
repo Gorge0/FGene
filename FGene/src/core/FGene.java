@@ -114,7 +114,7 @@ public class FGene {
 				return p;
 			}
 		}
-		System.out.println("Piloto nao encontrado: FGene.getPiloto("+name+")");
+		//System.out.println("Piloto nao encontrado: FGene.getPiloto("+name+")");
 		return null;
 	}
 	

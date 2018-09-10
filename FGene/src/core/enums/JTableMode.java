@@ -125,12 +125,12 @@ public enum JTableMode {
 				data.add(cont*22-14,""+playoffE);
 				data.add(cont*22-13,""+(gold+silver+bronze+goldE+silverE+bronzeE));
 
-				data.add(cont*22-5, Stats2.format.format(win/p.playoffs).toString());
-				data.add(cont*22-4, Stats2.format.format(pt/p.playoffs).toString());
+				data.add(cont*22-5, Stats2.format.format(win/p.pPlayoffs).toString());
+				data.add(cont*22-4, Stats2.format.format(pt/p.pPlayoffs).toString());
 				
-				data.add(cont*22-3, Stats2.format.format(new Double((p.playoffs)/18.0)).toString());
+				data.add(cont*22-3, Stats2.format.format(new Double((p.pPlayoffs)/18.0)).toString());
 				data.add(cont*22-2, Stats2.format.format(new Double((gold+goldE)/18.0)).toString());
-				data.add(cont*22-1, Stats2.format.format(new Double((gold+silver+bronze+goldE+silverE+bronzeE)/new Double(p.playoffs))).toString());
+				data.add(cont*22-1, Stats2.format.format(new Double((gold+silver+bronze+goldE+silverE+bronzeE)/new Double(p.pPlayoffs))).toString());
 				
 				cont++;
 			}

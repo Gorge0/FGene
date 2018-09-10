@@ -13,42 +13,72 @@
 	<ui:define name="centro">
 
 		<p:panelGrid style="margin:20px;text-align: center; font-size: 12px;" >
-			<p:row>
-		        <p:column style="font-weight: bold;">
+			<p:row style="border-style: none;">
+		        <p:column style="font-weight: bold;background-color: white;border-style: none;">
 		        
 					<p:dataTable id="medalP" var="piloto" value="#{pilotosBean.pilotos}" paginator="true" rows="20"
 						sortMode="multiple" paginatorPosition="bottom"
                          paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}"
                          rowsPerPageTemplate="20,60,100" 
                          selectionMode="single" selection="#{pilotosBean.selectedPiloto}" rowKey="#{piloto.name}"
-                         style="width: 480px;">
+                         style="width: 50%;">
 						<f:facet name="header" >
 							<p:panelGrid style="margin:0px;">
-					            <p:column ></p:column>
-					            <p:column colspan="2">Campeonato de Pilotos</p:column>
-					            <p:column colspan="2">Campeonato de Equipes</p:column>
-					            <p:column ></p:column>
+					            <p:column style="width: 100px;"></p:column>
+					            <p:column colspan="4">Campeonato de Pilotos</p:column>
+					            <p:column colspan="4">Campeonato de Equipes</p:column>
+					            <p:column colspan="2"></p:column>
 							</p:panelGrid>
 						</f:facet>
 						
-						<p:column headerText="Nome" sortBy="#{piloto.name}" style="width: 100px;">
+						<p:column id="nomeCol" sortBy="#{piloto.name}" style="width: 100px;">
+							<f:facet name="header">
+							     <h:outputText value="Nome" />
+							     <p:tooltip value="TOOLTIP VALUE TO SHOW" for="nomeCol" position="top" style="font-size: 10px;"/>
+							</f:facet> 
 							<h:outputText value="#{piloto.name}" />
 						</p:column>
-						<p:column headerText="Gold" sortBy="#{piloto.pChamp}">
-							<h:outputText value="#{piloto.pChamp}" />
+						<p:column id="pGoldCol" headerText="Gold" sortBy="#{piloto.pGold}">
+							<h:outputText value="#{piloto.pGold}" />
 						</p:column>
-						<p:column headerText="Silver" sortBy="#{piloto.pRunnerUp}">
-							<h:outputText value="#{piloto.pRunnerUp}" />
+						<p:column headerText="Silver" sortBy="#{piloto.pSilver}">
+							<h:outputText value="#{piloto.pSilver}" />
 						</p:column>
-						<p:column headerText="Gold" sortBy="#{piloto.eChamp}">
-							<h:outputText value="#{piloto.eChamp}" />
+						<p:column headerText="Bronze" sortBy="#{piloto.pBronze}" style="padding: 2px;">
+							<h:outputText value="#{piloto.pBronze}" />
 						</p:column>
-						<p:column headerText="Silver" sortBy="#{piloto.eRunnerUp}">
-							<h:outputText value="#{piloto.eRunnerUp}" />
+						<p:column headerText="Playoffs" sortBy="#{piloto.pPlayoffs}" style="padding: 2px;">
+							<h:outputText value="#{piloto.pPlayoffs}" />
 						</p:column>
-						<p:column headerText="Playoffs" sortBy="#{piloto.playoffs}">
-							<h:outputText value="#{piloto.playoffs}" />
+						<p:column headerText="Gold" sortBy="#{piloto.eGold}">
+							<h:outputText value="#{piloto.eGold}" />
 						</p:column>
+						<p:column headerText="Silver" sortBy="#{piloto.eSilver}">
+							<h:outputText value="#{piloto.eSilver}" />
+						</p:column>
+						<p:column headerText="Bronze" sortBy="#{piloto.eBronze}" style="padding: 2px;">
+							<h:outputText value="#{piloto.eBronze}" />
+						</p:column>
+						<p:column headerText="Playoffs" sortBy="#{piloto.ePlayoffs}" style="padding: 2px;">
+							<h:outputText value="#{piloto.ePlayoffs}" />
+						</p:column>
+						
+						<p:column headerText="Medals" sortBy="#{piloto.pGold+piloto.pSilver+piloto.pBronze+
+								piloto.eGold+piloto.eSilver+piloto.eBronze}" style="padding: 2px;">
+							<h:outputText value="#{piloto.medals}" />
+						</p:column>
+						
+						<p:column id="playoffEffCol" sortBy="#{piloto.playoffEff}"
+									style="padding: 2px;">
+							<f:facet name="header">
+							     <h:outputText value="PE" />
+							     <p:tooltip value="Playoff Efficiency" for="playoffEffCol" position="top" style="font-size: 10px;"/>
+							</f:facet>
+							<h:outputText value="#{(piloto.pGold+piloto.pSilver+piloto.pBronze)/piloto.pPlayoffs}">
+								<f:convertNumber maxFractionDigits="3" groupingUsed="false" minFractionDigits="3" />
+							</h:outputText>
+						</p:column>
+						
 					</p:dataTable>
 		        
 		        </p:column>
