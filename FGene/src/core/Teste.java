@@ -3,25 +3,34 @@ import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-import core.enums.Bonus;
 import core.enums.Powers;
 
 public class Teste {
 
 	
-		public static void main(String[] args) {
-			FileStreamController ctrl = new FileStreamController();
-			if(!ctrl.load()){
-				ctrl.start();
-			}
-			 
+		public static void main(String[] args) throws IOException {
+//			FileStreamController ctrl = new FileStreamController();
+//			if(!ctrl.load()){
+//				ctrl.start();
+//			}
+			
+//			for(Equipe e : FGene.getAllEquipes()){
+//				System.out.println(e.name);
+//			}
+			
+//			Piloto p = FGene.getPiloto("Brenden");
+//			Equipe e = FGene.getEquipeOfPiloto(FGene.getAllEquipes(),p);
+//			if(e.piloto1 == p){
+//				e.contract1--;
+//			}else{
+//				e.contract2--;
+//			}
+			
 			//patchPowers(FGene.getAllEquipes());
 			//write(FGene.getAllEquipes());
 			 //updateDriverAI(1500);
@@ -39,37 +48,50 @@ public class Teste {
 //				updateStats2(s.equipes);
 //				updateStats2(s.pHere());
 //			}
-			for(Piloto p : FGene.getAllPilots()){
-				if(p.name.equals("Bharata")){
-					p.careerLeft=8;
-				}
-				if(p.name.equals("Fotis")){
-					p.careerLeft=8;
-				}
-				if(p.name.equals("Flores")){
-					p.careerLeft=14;
-				}
-				if(p.name.equals("Walter")){
-					p.careerLeft=13;
-				}
-			}
-//			for(Piloto p : FGene.getAllSeasons().get(0).pHere()){
-//				if(p.name.equals("Ainsley")){
-//					p.AI+=1;
-//				}
+//			for(Piloto p : FGene.getAllPilots()){
 //				if(p.name.equals("Bharata")){
-//					p.AI+=1;
+//					p.careerLeft=8;
+//				}
+//				if(p.name.equals("Fotis")){
+//					p.careerLeft=8;
+//				}
+//				if(p.name.equals("Flores")){
+//					p.careerLeft=14;
+//				}
+//				if(p.name.equals("Walter")){
+//					p.careerLeft=13;
 //				}
 //			}
+//			for(Season s : FGene.getAllSeasons()){
+//				for(Equipe e : s.equipes){
+//					e.pureStats = new Stats2(Stats.somarStats(e.piloto1.season, e.piloto2.season, true));
+//				}
+//			}
+//			
+//			
+////			changeCareers(FGene.getAllPilots());
+////			System.out.println("---------------------------------");
+////			changeContracts(FGene.getAllEquipes());
+//			
+//			//System.out.println(Double.BYTES);
+//			ctrl.save();
+//		 
+			
+//			Reflections reflections = new Reflections("com.mycompany");    
+//			Set<Class<? extends MyInterface>> classes = reflections.getSubTypesOf(MyInterface.class);
+			
+//			System.out.println(new Random().nextGaussian()*0.3+0.5);
 			
 			
-//			changeCareers(FGene.getAllPilots());
-//			System.out.println("---------------------------------");
-//			changeContracts(FGene.getAllEquipes());
+//			File file = new File(System.getProperty("user.dir")+"\\Drivers\\"+p.name+".drv");
+			File file = new File("C:\\Users\\Samuel\\Desktop\\FGene - Copy\\drivers\\Assis3.drv");
+			RandomAccessFile raf = new RandomAccessFile(file, "rw");
 			
-			//System.out.println(Double.BYTES);
-			ctrl.save();
-		       
+			raf.seek(84);
+//			raf.writeByte(Integer.reverseBytes(p.AI));
+			raf.write((int)160);
+			raf.close();
+			
 		}
 		
 		public static void updateStats2(ArrayList<Piloto> ps){

@@ -23,11 +23,17 @@ public class Stats2 implements Serializable{
 //	@JTableAnno(modes={JTableMode.PSEASONS,JTableMode.PSEASON,JTableMode.EQSEASON})
 //	public Double overall;
 	
-	@JTableAnno(modes={JTableMode.PSEASONS,JTableMode.PSEASON,JTableMode.EQSEASON})
+	@JTableAnno(modes={JTableMode.PSEASONS,JTableMode.PSEASON})
 	public Double winRATE;
 	
-	@JTableAnno(modes={JTableMode.PSEASONS,JTableMode.PSEASON,JTableMode.EQSEASON})
+	@JTableAnno(modes={JTableMode.PSEASONS,JTableMode.PSEASON})
 	public Double ptRATE;
+	
+	@JTableAnno(modes={JTableMode.EQSEASON})
+	public Double eqWinRATE;
+	
+	@JTableAnno(modes={JTableMode.EQSEASON})
+	public Double eqPtRATE;
 	
 	public Stats2(Stats st){
 		this.stats = st;
@@ -38,10 +44,14 @@ public class Stats2 implements Serializable{
 		Double races = new Double(stats.getTotalRaces());
 		if(races != 0){
 			winRATE = stats.p1st/races;
+			eqWinRATE = stats.p1st/(races/2);
 			ptRATE = (stats.pts/races)/8;
+			eqPtRATE = (stats.pts/(races/2))/13;
 		}else{
 			winRATE = 0.0;
+			eqWinRATE = 0.0;
 			ptRATE = 0.0;
+			eqPtRATE = 0.0;
 		}
 	}
 }

@@ -11,9 +11,13 @@ public enum Bonus {
 		@Override
 		public void add(Equipe e, Piloto p) {
 			if(e.piloto1 == p){
-				e.contract1++;
+				if(e.contract1 < e.piloto1.careerLeft){
+					e.contract1++;
+				}
 			}else{
-				e.contract2++;
+				if(e.contract2 < e.piloto2.careerLeft){
+					e.contract2++;
+				}
 			}
 		}
 

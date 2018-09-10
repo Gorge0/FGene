@@ -1,10 +1,12 @@
 package core;
 import java.io.Serializable;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Random;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 import core.enums.Bonus;
 import core.enums.Powers;
@@ -106,8 +108,16 @@ public class Season implements Serializable{
 //		}
 //	}
 	public void genPilotPlayoff(){
+		//updated v6.7
 		for(ArrayList<Piloto> ps : getGroups()){
-			ps.stream().sorted((p2, p1) -> p1.season.pts.compareTo(p2.season.pts)).limit(1).forEach(s -> playoffs.add(s));
+			ps.stream().sorted(Comparator.comparing((Piloto p1)->p1.season.pts)
+			          .thenComparing(p1->p1.season.p1st)
+			          .thenComparing(p1->p1.season.p2nd)
+			          .thenComparing(p1->p1.season.p3rd)
+			          .thenComparing(p1->p1.season.p4th)
+			          .thenComparing(p1->p1.season.p5th)
+			          .thenComparingInt(p1->p1.season.p6th)
+			          .reversed()).limit(1).forEach(s -> playoffs.add(s));
 		}
 	}
 	public ArrayList<ArrayList<Piloto>> getGroups(){
@@ -232,6 +242,7 @@ public class Season implements Serializable{
 				}
 			}
 		}
+		new FileStreamController().updateCarFile();
 	}
 	
 	public void updateBonus(){
@@ -257,6 +268,7 @@ public class Season implements Serializable{
 	
 	public void updateAI(){
 		for(Piloto p : pHere()){
+			FGene.getPiloto(p.name).potential = 0;
 			FGene.getPiloto(p.name).updateTimeAI();
 		}
 		
@@ -268,13 +280,28 @@ public class Season implements Serializable{
 			for(ArrayList<Piloto> ps : getGroups()){
 				ps.sort((p2, p1) -> p1.season.pts.compareTo(p2.season.pts));
 				
-				for(int j=0;j<6;j++){
-					if(j<4){
-						int diff = ps.get(j).season.pts - ps.get(j+1).season.pts;
+				for(int j=1;j<6;j++){
+					if(j<6){
+						int diff = 0;
+						//int after = ps.get(j).season.pts - ps.get(j+1).season.pts;
+						int before = 200;
+						if(j != 0){
+							before = ps.get(j-1).season.pts - ps.get(j).season.pts;
+						}else{
+							before = 200;
+						}
+						//changed v6.5
+//						if(after < before){
+//							diff = after;
+//						}else{
+//						diff = before;
+//						}
+						diff = before;
 						FGene.getPiloto(ps.get(j).name).updatePlacingAI(j, diff);
 					}else{
-						if(j == 5){
-							FGene.repCheck(ps.get(j));
+						if(j == 5 || j == 4){
+							//removed v6.5
+//							FGene.repCheck(ps.get(j));
 						}
 					}
 				}
@@ -282,6 +309,11 @@ public class Season implements Serializable{
 			}
 		
 		FGene.repCheck(this.playoffs);
+		
+		//added v6.5
+		for(Piloto p : pHere()){
+			FGene.getPiloto(p.name).applyPotential();
+		}
 		
 		FileStreamController con = new FileStreamController();
 		for(Piloto p : pHere()){
@@ -293,8 +325,10 @@ public class Season implements Serializable{
 	public ArrayList<Equipe> getEqsPlayoff(){
 		ArrayList<Equipe> eqs = new ArrayList<>();
 		for(Equipe e : this.equipes){
-			if(this.playoffsEquipe.contains(e.piloto1) && this.playoffsEquipe.contains(e.piloto2)){
-				eqs.add(e);
+			if(this.playoffsEquipe != null){
+				if(this.playoffsEquipe.contains(e.piloto1) && this.playoffsEquipe.contains(e.piloto2)){
+					eqs.add(e);
+				}
 			}
 		}
 		eqs.sort((e2,e1) -> (Stats.somarStats(e1.piloto1.playoffEquipe, e1.piloto2.playoffEquipe, true).pts).compareTo(Stats.somarStats(e2.piloto1.playoffEquipe, e2.piloto2.playoffEquipe, true).pts));
@@ -327,5 +361,53 @@ public class Season implements Serializable{
 		}
 		return null;
 	}
+	public Equipe getEquipeByName(String name){
+		for(Equipe e : this.equipes){
+			if(e.name.equals(name)){
+				return e;
+			}
+		}
+		return null;
+	}
+	
+	public Integer getPosPiloto(String name){
+		if(this.isEnded){
+			Integer value = 0;
+			Piloto p = this.getPilotByName(name);
+			if(p != null){
+				if(this.playoffs.contains(p)){
+					value = this.playoffs.size()- this.playoffs.indexOf(p) + 4;
+				}else{
+					ArrayList<ArrayList<Piloto>> groups = this.getGroups();
+					for(ArrayList<Piloto> ps : groups){
+						if(ps.contains(p)){
+							ps.sort((p2,p1) -> p1.season.pts.compareTo(p2.season.pts));
+							value = ps.size()- ps.indexOf(p) - 1;
+						}
+					}
+				}
+				return value;
+			}
+		}
+		
+		return null;
+	}
+
+	public Integer getPosEquipe(String name) {
+		if(this.isEnded){
+			Integer value = 0;
+			Equipe e = this.getEquipeByName(name);
+			if(e != null){
+				List<Equipe> eqs = this.equipes.stream().sorted((e2,e1) -> e1.stats.pts.compareTo(e2.stats.pts)).collect(Collectors.toList());
+				value = (eqs.size() - eqs.indexOf(e)) - 1;
+				if(value > 14 && this.playoffsEquipe != null){
+					value = (eqs.size() - getEqsPlayoff().indexOf(e))-1;
+				}
+			}
+			return value;
+		}
+		return null;
+	}
+
 	
 }

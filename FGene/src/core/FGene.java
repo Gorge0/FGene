@@ -96,6 +96,15 @@ public class FGene {
 		return null;
 	}
 	
+	public static Season getSeasonByAno(String ano){
+		for(Season s : allSeasons){
+			if(s.ano.toString().equals(ano)){
+				return s;
+			}
+		}
+		return null;
+	}
+	
 	public static Piloto getPiloto(String name){
 		return getPiloto(getAllPilots(), name);
 	}
@@ -164,6 +173,8 @@ public class FGene {
 			if(--e.contract1 == 0){
 				if(e.piloto1.careerLeft != 0){
 					noContract.add(e.piloto1);
+				}else{
+					new FileStreamController().movePilotoFile(e.piloto1);
 				}
 				//e.piloto1 = null;
 				noPiloto.add(e);
@@ -173,6 +184,8 @@ public class FGene {
 			if(--e.contract2 == 0){
 				if(e.piloto2.careerLeft != 0){
 					noContract.add(e.piloto2);
+				}else{
+					new FileStreamController().movePilotoFile(e.piloto2);
 				}
 				//e.piloto2 = null;
 				noPiloto.add(e);
@@ -216,6 +229,7 @@ public class FGene {
 	//Add AI para pilotos q ficaram em ultimo repetidamente
 	public static void repCheck(Piloto p) {
 		String log = "repCheck: "+p.name+": +";
+		int adding = 1;
 		for(int i = 1; i<FGene.getAllSeasons().size(); i++){
 			boolean toBeCont = false;
 			Season s = FGene.getAllSeasons().get(i);
@@ -226,9 +240,16 @@ public class FGene {
 				for(Piloto p2 : ps){
 					if(p.name.equals(p2.name)){
 						if(ps.indexOf(p2) == 5){
-							FGene.getPiloto(p.name).AI += i;
-							log += i+" +";
+							FGene.getPiloto(p.name).AI += adding;
+							log += adding+" +";
+							adding++;
 							toBeCont = true;
+						}else{
+							if(ps.indexOf(p2) == 4){
+								FGene.getPiloto(p.name).AI += 1;
+								log += adding+" +";
+								toBeCont = true;
+							}
 						}
 						break A;
 					}
@@ -249,34 +270,42 @@ public class FGene {
 		boolean firstToBeCont = true;
 		for(Piloto p : playoff){
 			String log = "repCheck: "+p.name+": -";
-			for(int i = 1; i<FGene.getAllSeasons().size(); i++){
-				Season s = FGene.getAllSeasons().get(i);
+			
+			//added v6.5
+			Season s = FGene.getAllSeasons().get(1);
+			if(first && p.name.equals(s.playoffs.get(0).name)){
+				FGene.getPiloto(p.name).AI -= 4;
+			}
 				
-				//Repeated Champ
-				if(firstToBeCont){
-					if(first && p.name.equals(s.playoffs.get(0).name)){
-						log += i+" -";
-						FGene.getPiloto(p.name).AI -= i;
-					}else{
-						firstToBeCont = false;
-					}
-				}
+//			for(int i = 1; i<FGene.getAllSeasons().size(); i++){
+//				Season s = FGene.getAllSeasons().get(i);
+//				
+//				//Repeated Champ
+//				if(firstToBeCont){
+//					if(first && p.name.equals(s.playoffs.get(0).name)){
+//						log += i+" -";
+//						FGene.getPiloto(p.name).AI -= i;
+//					}else{
+//						firstToBeCont = false;
+//					}
+//				}
 				
 				//Repeated Playoffs
-				boolean toBeCont = false;
-				for(Piloto p2 : s.playoffs){
-					if(p.name.equals(p2.name)){
-						log += i+" -";
-						FGene.getPiloto(p.name).AI -= i;
-						toBeCont = true;
-					}
-				}
-				if(toBeCont){
-					continue;
-				}else{
-					break;
-				}
-			}
+				//removed v6.5
+//				boolean toBeCont = false;
+//				for(Piloto p2 : s.playoffs){
+//					if(p.name.equals(p2.name)){
+//						log += i+" -";
+//						FGene.getPiloto(p.name).AI -= i;
+//						toBeCont = true;
+//					}
+//				}
+//				if(toBeCont){
+//					continue;
+//				}else{
+//					break;
+//				}
+//			}
 			
 			first = false;
 			System.out.println(log);
@@ -295,11 +324,12 @@ public class FGene {
 	         @Override
 	         public void run() {
 	        	 JFrame frame = new JFrame("Formula Gene");
-	        	 frame.setBounds(20, 20, 1800, 1000);
+	        	 frame.setBounds(20, 20, 1300, 650);
 	     		 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	             MainPanel f = new MainPanel();  // Let the constructor do the job
 	             JScrollPane scroll = new JScrollPane(f);
 	             frame.add(scroll);
+	             frame.pack();
 	             frame.setVisible(true);
 	             //MainForm.form.tabs.addTab("Equipes", new JScrollPane());
 	             //FGene.allPilots.get(0).champ = 1;

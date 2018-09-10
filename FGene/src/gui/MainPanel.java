@@ -4,16 +4,13 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-import javax.swing.UIManager;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableCellRenderer;
-
-import core.enums.Telas;
 
 public class MainPanel extends JPanel implements ActionListener{
 	
@@ -31,17 +28,33 @@ public class MainPanel extends JPanel implements ActionListener{
 		return c;
 	}
 	
+	
 	public MainPanel() {
-		
 		MainPanel.form = this;
-		
-		Telas.PILOTOS.createPanel();
-		Telas.EQUIPES.createPanel();
-		Telas.CHAMPS.createPanel();
-		Telas.SEASON.createPanel();
-		
+		createAllPanels();
 		add(tabs);
-					
+		tabs.addChangeListener(new ChangeListener() {
+			
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				// TODO Auto-generated method stub
+				if(tabs.getSelectedIndex() == 4){
+					new PilotoPanel().createPanel();
+				}
+				if(tabs.getSelectedIndex() == 5){
+					new EquipePanel().createPanel();
+				}
+			}
+		});
+	}
+	
+	public void createAllPanels(){
+		new Telas.AllPilotoPanel().createPanel();
+		new Telas.EquipesPanel().createPanel();
+		new Telas.ChampsPanel().createPanel();
+		new SeasonPanel().createPanel();
+		new PilotoPanel().createPanel();
+		new EquipePanel().createPanel();
 	}
 	
 	public void center(JTable t){

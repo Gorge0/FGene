@@ -23,19 +23,19 @@ public class Equipe implements Serializable, Cloneable{
 	public Integer contract1;
 	public Integer contract2;
 	
-	@JTableAnno(modes={JTableMode.ALLEQUIPES})
+	//@JTableAnno(modes={JTableMode.ALLEQUIPES})
 	public Integer pChamps = 0;
 	
-	@JTableAnno(modes={JTableMode.ALLEQUIPES})
+	//@JTableAnno(modes={JTableMode.ALLEQUIPES})
 	public Integer pRunnerUps = 0;
 	
-	@JTableAnno(modes={JTableMode.ALLEQUIPES})
+	//@JTableAnno(modes={JTableMode.ALLEQUIPES})
 	public Integer eChamps = 0;
 	
-	@JTableAnno(modes={JTableMode.ALLEQUIPES})
+	//@JTableAnno(modes={JTableMode.ALLEQUIPES})
 	public Integer eRunnerUps = 0;
 	
-	@JTableAnno(modes={JTableMode.ALLEQUIPES})
+	//@JTableAnno(modes={JTableMode.ALLEQUIPES})
 	public Integer playoffs = 0;
 	
 	public Bonus currentBonus = null;
