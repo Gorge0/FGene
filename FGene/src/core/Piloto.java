@@ -10,43 +10,21 @@ public class Piloto implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	@JTableAnno(modes={JTableMode.PSEASONS,JTableMode.PSEASON,JTableMode.PPLAYOFF,JTableMode.ALLPILOTS})
 	public String name;
-	
 	public Integer AI;
 	public Integer potential=0;
 	public Double xp=0.0;
 	
-	public Integer careerLeft;
+	public Integer careerLeft = 18;
 	
-	@JTableAnno(modes={JTableMode.PSEASONS})
-	public Integer seasons = 0;
+	private Medals medalCampPiloto = new Medals();
+	private Medals medalCampEquipe = new Medals();
 	
-	public Integer pGold = 0;
-	public Integer pSilver = 0;
-	public Integer pBronze = 0;
-	public Integer pPlayoffs = 0;
-	
-	public Integer eGold = 0;
-	public Integer eSilver = 0;
-	public Integer eBronze = 0;
-	public Integer ePlayoffs = 0;
-	
-	@JTableAnno(modes={JTableMode.ALLPILOTS})
 	public Stats totals = new Stats();
-	
-	@JTableAnno(modes={JTableMode.PSEASONS,JTableMode.PSEASON})
 	public Stats season = new Stats();
-	
-	@JTableAnno(modes={JTableMode.PSEASON,JTableMode.PSEASONS})
-	public Stats2 pureSeason = new Stats2(season);
-	
-	@JTableAnno(modes={JTableMode.PPLAYOFF})
 	public Stats playoff = new Stats();
-	
-	@JTableAnno(modes={})
 	public Stats playoffEquipe = new Stats();
-	
+
 	public Piloto(String name, Integer caLeft){
 		this.name = name;
 		this.AI = 100;
@@ -62,13 +40,6 @@ public class Piloto implements Serializable{
 	}
 	
 	public Piloto(){
-	}
-	
-	public Integer getMedals() {
-		return pGold+pSilver+pBronze+eGold+eSilver+eBronze;
-	}
-	public Double getPlayoffEff() {
-		return (pGold+pSilver+pBronze)/new Double(pPlayoffs);
 	}
 	
 	public void updatePts(){
@@ -195,46 +166,6 @@ public class Piloto implements Serializable{
 		this.careerLeft = careerLeft;
 	}
 
-	public Integer getSeasons() {
-		return seasons;
-	}
-
-	public void setSeasons(Integer seasons) {
-		this.seasons = seasons;
-	}
-
-	public Integer getpChamp() {
-		return pGold;
-	}
-
-	public void setpChamp(Integer pChamp) {
-		this.pGold = pChamp;
-	}
-
-	public Integer getpRunnerUp() {
-		return pSilver;
-	}
-
-	public void setpRunnerUp(Integer pRunnerUp) {
-		this.pSilver = pRunnerUp;
-	}
-
-	public Integer geteChamp() {
-		return eGold;
-	}
-
-	public void seteChamp(Integer eChamp) {
-		this.eGold = eChamp;
-	}
-
-	public Integer geteRunnerUp() {
-		return eSilver;
-	}
-
-	public void seteRunnerUp(Integer eRunnerUp) {
-		this.eSilver = eRunnerUp;
-	}
-
 	public Stats getTotals() {
 		return totals;
 	}
@@ -249,14 +180,6 @@ public class Piloto implements Serializable{
 
 	public void setSeason(Stats season) {
 		this.season = season;
-	}
-
-	public Stats2 getPureSeason() {
-		return pureSeason;
-	}
-
-	public void setPureSeason(Stats2 pureSeason) {
-		this.pureSeason = pureSeason;
 	}
 
 	public Stats getPlayoff() {
@@ -275,68 +198,20 @@ public class Piloto implements Serializable{
 		this.playoffEquipe = playoffEquipe;
 	}
 
-	public Integer getpGold() {
-		return pGold;
+	public Medals getMedalCampPiloto() {
+		return medalCampPiloto;
 	}
 
-	public void setpGold(Integer pGold) {
-		this.pGold = pGold;
+	public void setMedalCampPiloto(Medals medalCampPiloto) {
+		this.medalCampPiloto = medalCampPiloto;
 	}
 
-	public Integer getpSilver() {
-		return pSilver;
+	public Medals getMedalCampEquipe() {
+		return medalCampEquipe;
 	}
 
-	public void setpSilver(Integer pSilver) {
-		this.pSilver = pSilver;
-	}
-
-	public Integer getpBronze() {
-		return pBronze;
-	}
-
-	public void setpBronze(Integer pBronze) {
-		this.pBronze = pBronze;
-	}
-
-	public Integer getpPlayoffs() {
-		return pPlayoffs;
-	}
-
-	public void setpPlayoffs(Integer pPlayoffs) {
-		this.pPlayoffs = pPlayoffs;
-	}
-
-	public Integer geteGold() {
-		return eGold;
-	}
-
-	public void seteGold(Integer eGold) {
-		this.eGold = eGold;
-	}
-
-	public Integer geteSilver() {
-		return eSilver;
-	}
-
-	public void seteSilver(Integer eSilver) {
-		this.eSilver = eSilver;
-	}
-
-	public Integer geteBronze() {
-		return eBronze;
-	}
-
-	public void seteBronze(Integer eBronze) {
-		this.eBronze = eBronze;
-	}
-
-	public Integer getePlayoffs() {
-		return ePlayoffs;
-	}
-
-	public void setePlayoffs(Integer ePlayoffs) {
-		this.ePlayoffs = ePlayoffs;
+	public void setMedalCampEquipe(Medals medalCampEquipe) {
+		this.medalCampEquipe = medalCampEquipe;
 	}
 
 }

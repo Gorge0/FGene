@@ -42,6 +42,12 @@ public class Stats implements Serializable{
 	
 	public static Stats somarStats(Stats st1, Stats st2, boolean isSoma){
 		Stats res = new Stats();
+		if(st1 == null) {
+			st1 = new Stats();
+		}
+		if(st2 == null) {
+			st2 = new Stats();
+		}
 		if(isSoma){
 			res.p1st = st1.p1st + st2.p1st;
 			res.p2nd = st1.p2nd + st2.p2nd;
@@ -59,6 +65,62 @@ public class Stats implements Serializable{
 		}
 		res.updatePts();
 		return res;
+	}
+
+	public Integer getPts() {
+		return pts;
+	}
+
+	public void setPts(Integer pts) {
+		this.pts = pts;
+	}
+
+	public Integer getP1st() {
+		return p1st;
+	}
+
+	public void setP1st(Integer p1st) {
+		this.p1st = p1st;
+	}
+
+	public Integer getP2nd() {
+		return p2nd;
+	}
+
+	public void setP2nd(Integer p2nd) {
+		this.p2nd = p2nd;
+	}
+
+	public Integer getP3rd() {
+		return p3rd;
+	}
+
+	public void setP3rd(Integer p3rd) {
+		this.p3rd = p3rd;
+	}
+
+	public Integer getP4th() {
+		return p4th;
+	}
+
+	public void setP4th(Integer p4th) {
+		this.p4th = p4th;
+	}
+
+	public Integer getP5th() {
+		return p5th;
+	}
+
+	public void setP5th(Integer p5th) {
+		this.p5th = p5th;
+	}
+
+	public Integer getP6th() {
+		return p6th;
+	}
+
+	public void setP6th(Integer p6th) {
+		this.p6th = p6th;
 	}
 	
 	

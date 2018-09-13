@@ -54,4 +54,36 @@ public class Stats2 implements Serializable{
 			eqPtRATE = 0.0;
 		}
 	}
+
+	public Double getWinRATE() {
+		return winRATE;
+	}
+
+	public void setWinRATE(Double winRATE) {
+		this.winRATE = winRATE;
+	}
+
+	public Double getPtRATE() {
+		return ptRATE;
+	}
+
+	public void setPtRATE(Double ptRATE) {
+		this.ptRATE = ptRATE;
+	}
+
+	public Double getEqWinRATE() {
+		return eqWinRATE;
+	}
+
+	public void setEqWinRATE(Double eqWinRATE) {
+		this.eqWinRATE = eqWinRATE;
+	}
+
+	public Double getEqPtRATE() {
+		return eqPtRATE;
+	}
+
+	public void setEqPtRATE(Double eqPtRATE) {
+		this.eqPtRATE = eqPtRATE;
+	}
 }

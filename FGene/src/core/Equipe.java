@@ -12,41 +12,22 @@ public class Equipe implements Serializable, Cloneable{
 
 	private static final long serialVersionUID = 2L;
 	
-	@JTableAnno(modes={JTableMode.ALLEQUIPES,JTableMode.EQSEASON,JTableMode.ECONTRACTS})
 	public String name;
 	
-	@JTableAnno(modes={JTableMode.ECONTRACTS})
 	public Piloto piloto1;
 	public Piloto piloto2;
-	
-	@JTableAnno(modes={JTableMode.ECONTRACTS})
 	public Integer contract1;
 	public Integer contract2;
 	
-	//@JTableAnno(modes={JTableMode.ALLEQUIPES})
-	public Integer pChamps = 0;
-	
-	//@JTableAnno(modes={JTableMode.ALLEQUIPES})
-	public Integer pRunnerUps = 0;
-	
-	//@JTableAnno(modes={JTableMode.ALLEQUIPES})
-	public Integer eChamps = 0;
-	
-	//@JTableAnno(modes={JTableMode.ALLEQUIPES})
-	public Integer eRunnerUps = 0;
-	
-	//@JTableAnno(modes={JTableMode.ALLEQUIPES})
-	public Integer playoffs = 0;
+	private Medals medalCampPiloto = new Medals();
+	private Medals medalCampEquipe = new Medals();
 	
 	public Bonus currentBonus = null;
 	
 	public EnumMap<Powers, Double> powers = new EnumMap<>(Powers.class);
 	
-	@JTableAnno(modes={JTableMode.EQSEASON})
-	public Stats stats = new Stats();
-	
-	@JTableAnno(modes={JTableMode.EQSEASON})
-	public Stats2 pureStats = new Stats2(stats);
+	public Stats statsSeason = new Stats();
+	public Stats statsPlayoffE = new Stats();
 	
 	public Equipe(String name){
 		this.name = name;
@@ -138,5 +119,93 @@ public class Equipe implements Serializable, Cloneable{
 	public String toString() {
 		// TODO Auto-generated method stub
 		return name;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Piloto getPiloto1() {
+		return piloto1;
+	}
+
+	public void setPiloto1(Piloto piloto1) {
+		this.piloto1 = piloto1;
+	}
+
+	public Piloto getPiloto2() {
+		return piloto2;
+	}
+
+	public void setPiloto2(Piloto piloto2) {
+		this.piloto2 = piloto2;
+	}
+
+	public Integer getContract1() {
+		return contract1;
+	}
+
+	public void setContract1(Integer contract1) {
+		this.contract1 = contract1;
+	}
+
+	public Integer getContract2() {
+		return contract2;
+	}
+
+	public void setContract2(Integer contract2) {
+		this.contract2 = contract2;
+	}
+
+	public Bonus getCurrentBonus() {
+		return currentBonus;
+	}
+
+	public void setCurrentBonus(Bonus currentBonus) {
+		this.currentBonus = currentBonus;
+	}
+
+	public EnumMap<Powers, Double> getPowers() {
+		return powers;
+	}
+
+	public void setPowers(EnumMap<Powers, Double> powers) {
+		this.powers = powers;
+	}
+
+	public Stats getStatsSeason() {
+		return statsSeason;
+	}
+
+	public void setStatsSeason(Stats statsSeason) {
+		this.statsSeason = statsSeason;
+	}
+
+	public Stats getStatsPlayoffE() {
+		return statsPlayoffE;
+	}
+
+	public void setStatsPlayoffE(Stats statsPlayoffE) {
+		this.statsPlayoffE = statsPlayoffE;
+	}
+
+	public Medals getMedalCampPiloto() {
+		return medalCampPiloto;
+	}
+
+	public void setMedalCampPiloto(Medals medalCampPiloto) {
+		this.medalCampPiloto = medalCampPiloto;
+	}
+
+	public Medals getMedalCampEquipe() {
+		return medalCampEquipe;
+	}
+
+	public void setMedalCampEquipe(Medals medalCampEquipe) {
+		this.medalCampEquipe = medalCampEquipe;
 	}
 }

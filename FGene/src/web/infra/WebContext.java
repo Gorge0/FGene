@@ -12,6 +12,7 @@ public class WebContext implements ServletContextListener{
 	private FileStreamController ctrl = new FileStreamController();
 	
 	public void contextInitialized(ServletContextEvent event) {
+		System.out.println("start");
 		if(!ctrl.load()){
 			ctrl.start();
 		}

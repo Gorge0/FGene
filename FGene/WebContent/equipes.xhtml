@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+	<style>
+	</style>
+</h:head>
+
+<ui:composition template="template.xhtml" >
+	<ui:define name="centro">
+
+		<p:panelGrid style="margin:20px;text-align: center; font-size: 12px;" >
+			<p:row style="border-style: none;">
+		        <p:column style="font-weight: bold;background-color: white;border-style: none;">
+		        
+					<p:dataTable id="medalE" var="equipe" value="#{equipesBean.equipes}" rows="18"
+						sortMode="multiple"
+                         selectionMode="single" selection="#{equipesBean.selectedEquipe}" rowKey="#{equipe.name}"
+                         style="width: 100%;">
+						<f:facet name="header" >
+							<p:panelGrid style="margin:0px;">
+					            <p:column style="width: 90px;"></p:column>
+					            <p:column colspan="4">Campeonato de Pilotos</p:column>
+					            <p:column colspan="4">Campeonato de Equipes</p:column>
+					            <p:column colspan="2"></p:column>
+							</p:panelGrid>
+						</f:facet>
+						
+						<p:column headerText="Nome" sortBy="#{equipe.name}" style="width: 100px;">
+							<h:outputText value="#{equipe.name}" />
+						</p:column>
+						<p:column headerText="Gold" sortBy="#{equipe.medalCampPiloto.gold}">
+							<h:outputText value="#{equipe.medalCampPiloto.gold}" />
+						</p:column>
+						<p:column headerText="Silver" sortBy="#{equipe.medalCampPiloto.silver}">
+							<h:outputText value="#{equipe.medalCampPiloto.silver}" />
+						</p:column>
+						<p:column headerText="Bronze" sortBy="#{equipe.medalCampPiloto.bronze}" style="padding: 2px;">
+							<h:outputText value="#{equipe.medalCampPiloto.bronze}" />
+						</p:column>
+						<p:column headerText="Playoffs" sortBy="#{equipe.medalCampPiloto.chances}" style="padding: 2px;">
+							<h:outputText value="#{equipe.medalCampPiloto.chances}" />
+						</p:column>
+						<p:column headerText="Gold" sortBy="#{equipe.medalCampEquipe.gold}">
+							<h:outputText value="#{equipe.medalCampEquipe.gold}" />
+						</p:column>
+						<p:column headerText="Silver" sortBy="#{equipe.medalCampEquipe.silver}">
+							<h:outputText value="#{equipe.medalCampEquipe.silver}" />
+						</p:column>
+						<p:column headerText="Bronze" sortBy="#{equipe.medalCampEquipe.bronze}" style="padding: 2px;">
+							<h:outputText value="#{equipe.medalCampEquipe.bronze}" />
+						</p:column>
+						<p:column headerText="Playoffs" sortBy="#{equipe.medalCampEquipe.chances}" style="padding: 2px;">
+							<h:outputText value="#{equipe.medalCampEquipe.chances}" />
+						</p:column>
+						
+						<p:column headerText="Medals" sortBy="#{equipesBean.getMedals(equipe)}" style="padding: 2px;">
+							<h:outputText value="#{equipesBean.getMedals(equipe)}" />
+						</p:column>
+						
+						<p:column id="statsPlayoffEEffCol" sortBy="#{equipesBean.getPlayoffEff(equipe)}"
+									style="padding: 2px;">
+							<f:facet name="header">
+							     <h:outputText value="PE" />
+							     <p:tooltip value="Playoff Efficiency" for="statsPlayoffEEffCol" position="top" style="font-size: 10px;"/>
+							</f:facet>
+							<h:outputText value="#{equipesBean.getPlayoffEff(equipe)}">
+								<f:convertNumber maxFractionDigits="3" groupingUsed="false" minFractionDigits="3" />
+							</h:outputText>
+						</p:column>
+					</p:dataTable>
+		        </p:column>
+		        
+		        <p:column style="font-weight: bold;background-color: white;border-style: none;">
+		        
+					<p:dataTable id="pilotos" var="equipe" value="#{equipesBean.equipes}" rows="18"
+						sortMode="multiple" 
+                         selectionMode="single" selection="#{equipesBean.selectedEquipe}" rowKey="#{equipe.name}"
+                         style="width: 100%;">
+						<f:facet name="header" >
+							<p:panelGrid style="margin:0px;">
+					            <p:column style="width: 90px;"></p:column>
+					            <p:column colspan="3">Primeiro Piloto</p:column>
+					            <p:column colspan="3">Segundo Piloto</p:column>
+							</p:panelGrid>
+						</f:facet>
+						
+						<p:column headerText="Nome" sortBy="#{equipe.name}" style="width: 100px;">
+							<h:outputText value="#{equipe.name}" />
+						</p:column>
+						<p:column headerText="Piloto" sortBy="#{equipe.piloto1.name}" style="padding: 2px;width: 100px;">
+							<h:outputText value="#{equipe.piloto1.name}" />
+						</p:column>
+						<p:column headerText="Contrato" sortBy="#{equipe.contract1}" style="padding: 2px;">
+							<h:outputText value="#{equipe.contract1}" />
+						</p:column>
+						<p:column id="seasonLeft1" sortBy="#{equipe.piloto1.careerLeft}"
+									style="padding: 2px;">
+							<f:facet name="header">
+							     <h:outputText value="CR" />
+							     <p:tooltip value="Anos de Carreira Restantes" for="seasonLeft1" position="top" style="font-size: 10px;"/>
+							</f:facet>
+							<h:outputText value="#{equipe.piloto1.careerLeft}"/>
+						</p:column>
+						
+						<p:column headerText="Piloto" sortBy="#{equipe.piloto2.name}" style="padding: 2px;width: 100px;">
+							<h:outputText value="#{equipe.piloto2.name}" />
+						</p:column>
+						<p:column headerText="Contrato" sortBy="#{equipe.contract2}" style="padding: 2px;">
+							<h:outputText value="#{equipe.contract2}" />
+						</p:column>
+						<p:column id="seasonLeft2" sortBy="#{equipe.piloto2.careerLeft}"
+									style="padding: 2px;">
+							<f:facet name="header">
+							     <h:outputText value="CR" />
+							     <p:tooltip value="Anos de Carreira Restantes" for="seasonLeft2" position="top" style="font-size: 10px;"/>
+							</f:facet>
+							<h:outputText value="#{equipe.piloto2.careerLeft}"/>
+						</p:column>
+						
+					</p:dataTable>
+		        </p:column>
+		    </p:row>
+		    
+		    <p:row style="border-style: none;">
+		    	<p:column style="font-weight: bold;background-color: white;border-style: none;">
+		        
+					<p:dataTable id="stats" var="equipe" value="#{equipesBean.equipes}" rows="18"
+						sortMode="multiple" 
+                         selectionMode="single" selection="#{equipesBean.selectedEquipe}" rowKey="#{equipe.name}"
+                         style="width: 100%;">
+						
+						<p:column headerText="Nome" sortBy="#{equipe.name}" style="width: 100px;">
+							<h:outputText value="#{equipe.name}" />
+						</p:column>
+						<p:column headerText="AIR" sortBy="#{equipe.powers.get(equipesBean.powerMapping['AIR'])}" style="padding: 2px;">
+							<h:outputText value="#{equipe.powers.get(equipesBean.powerMapping['AIR'])}" >
+								<f:convertNumber maxFractionDigits="2" groupingUsed="false" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="POWER" sortBy="#{equipe.powers.get(equipesBean.powerMapping['POWER'])}" style="padding: 2px;">
+							<h:outputText value="#{equipe.powers.get(equipesBean.powerMapping['POWER'])}" >
+								<f:convertNumber maxFractionDigits="2" groupingUsed="false" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="SLOWDOWN" sortBy="#{equipe.powers.get(equipesBean.powerMapping['SLOWDOWN'])}" style="padding: 2px;">
+							<h:outputText value="#{equipe.powers.get(equipesBean.powerMapping['SLOWDOWN'])}" >
+								<f:convertNumber maxFractionDigits="2" groupingUsed="false" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="GRIP" sortBy="#{equipe.powers.get(equipesBean.powerMapping['GRIP'])}" style="padding: 2px;">
+							<h:outputText value="#{equipe.powers.get(equipesBean.powerMapping['GRIP'])}" >
+								<f:convertNumber maxFractionDigits="2" groupingUsed="false" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="GRADE" sortBy="#{equipesBean.calculateGrade(equipe)}" style="padding: 2px;">
+							<h:outputText value="#{equipesBean.calculateGrade(equipe)}" />
+						</p:column>
+						
+					</p:dataTable>
+		        </p:column>
+		    </p:row>
+		</p:panelGrid>
+	
+	</ui:define>
+</ui:composition>
+</html>

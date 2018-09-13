@@ -24,60 +24,174 @@
                          style="width: 50%;">
 						<f:facet name="header" >
 							<p:panelGrid style="margin:0px;">
-					            <p:column style="width: 100px;"></p:column>
+					            <p:column style="width: 90px;"></p:column>
 					            <p:column colspan="4">Campeonato de Pilotos</p:column>
 					            <p:column colspan="4">Campeonato de Equipes</p:column>
 					            <p:column colspan="2"></p:column>
 							</p:panelGrid>
 						</f:facet>
 						
-						<p:column id="nomeCol" sortBy="#{piloto.name}" style="width: 100px;">
-							<f:facet name="header">
-							     <h:outputText value="Nome" />
-							     <p:tooltip value="TOOLTIP VALUE TO SHOW" for="nomeCol" position="top" style="font-size: 10px;"/>
-							</f:facet> 
+						<p:column headerText="Nome" sortBy="#{piloto.name}" style="width: 100px;">
 							<h:outputText value="#{piloto.name}" />
 						</p:column>
-						<p:column id="pGoldCol" headerText="Gold" sortBy="#{piloto.pGold}">
-							<h:outputText value="#{piloto.pGold}" />
+						<p:column headerText="Gold" sortBy="#{piloto.medalCampPiloto.gold}">
+							<h:outputText value="#{piloto.medalCampPiloto.gold}" />
 						</p:column>
-						<p:column headerText="Silver" sortBy="#{piloto.pSilver}">
-							<h:outputText value="#{piloto.pSilver}" />
+						<p:column headerText="Silver" sortBy="#{piloto.medalCampPiloto.silver}">
+							<h:outputText value="#{piloto.medalCampPiloto.silver}" />
 						</p:column>
-						<p:column headerText="Bronze" sortBy="#{piloto.pBronze}" style="padding: 2px;">
-							<h:outputText value="#{piloto.pBronze}" />
+						<p:column headerText="Bronze" sortBy="#{piloto.medalCampPiloto.bronze}" style="padding: 2px;">
+							<h:outputText value="#{piloto.medalCampPiloto.bronze}" />
 						</p:column>
-						<p:column headerText="Playoffs" sortBy="#{piloto.pPlayoffs}" style="padding: 2px;">
-							<h:outputText value="#{piloto.pPlayoffs}" />
+						<p:column headerText="Playoffs" sortBy="#{piloto.medalCampPiloto.chances}" style="padding: 2px;">
+							<h:outputText value="#{piloto.medalCampPiloto.chances}" />
 						</p:column>
-						<p:column headerText="Gold" sortBy="#{piloto.eGold}">
-							<h:outputText value="#{piloto.eGold}" />
+						<p:column headerText="Gold" sortBy="#{piloto.medalCampEquipe.gold}">
+							<h:outputText value="#{piloto.medalCampEquipe.gold}" />
 						</p:column>
-						<p:column headerText="Silver" sortBy="#{piloto.eSilver}">
-							<h:outputText value="#{piloto.eSilver}" />
+						<p:column headerText="Silver" sortBy="#{piloto.medalCampEquipe.silver}">
+							<h:outputText value="#{piloto.medalCampEquipe.silver}" />
 						</p:column>
-						<p:column headerText="Bronze" sortBy="#{piloto.eBronze}" style="padding: 2px;">
-							<h:outputText value="#{piloto.eBronze}" />
+						<p:column headerText="Bronze" sortBy="#{piloto.medalCampEquipe.bronze}" style="padding: 2px;">
+							<h:outputText value="#{piloto.medalCampEquipe.bronze}" />
 						</p:column>
-						<p:column headerText="Playoffs" sortBy="#{piloto.ePlayoffs}" style="padding: 2px;">
-							<h:outputText value="#{piloto.ePlayoffs}" />
-						</p:column>
-						
-						<p:column headerText="Medals" sortBy="#{piloto.pGold+piloto.pSilver+piloto.pBronze+
-								piloto.eGold+piloto.eSilver+piloto.eBronze}" style="padding: 2px;">
-							<h:outputText value="#{piloto.medals}" />
+						<p:column headerText="Playoffs" sortBy="#{piloto.medalCampEquipe.chances}" style="padding: 2px;">
+							<h:outputText value="#{piloto.medalCampEquipe.chances}" />
 						</p:column>
 						
-						<p:column id="playoffEffCol" sortBy="#{piloto.playoffEff}"
+						<p:column headerText="Medals" sortBy="#{pilotosBean.getMedals(piloto)}" style="padding: 2px;">
+							<h:outputText value="#{pilotosBean.getMedals(piloto)}" />
+						</p:column>
+						
+						<p:column id="playoffEffCol" sortBy="#{pilotosBean.getPlayoffEff(piloto)}"
 									style="padding: 2px;">
 							<f:facet name="header">
 							     <h:outputText value="PE" />
 							     <p:tooltip value="Playoff Efficiency" for="playoffEffCol" position="top" style="font-size: 10px;"/>
 							</f:facet>
-							<h:outputText value="#{(piloto.pGold+piloto.pSilver+piloto.pBronze)/piloto.pPlayoffs}">
+							<h:outputText value="#{pilotosBean.getPlayoffEff(piloto)}">
 								<f:convertNumber maxFractionDigits="3" groupingUsed="false" minFractionDigits="3" />
 							</h:outputText>
 						</p:column>
+						
+					</p:dataTable>
+		        
+		        </p:column>
+		    </p:row>
+		    
+		    <p:row style="border-style: none;">
+		        <p:column style="font-weight: bold;background-color: white;border-style: none;">
+		        
+					<p:dataTable id="stats" var="piloto" value="#{pilotosBean.pilotos}" paginator="true" rows="20"
+						sortMode="multiple" paginatorPosition="bottom"
+                         paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="20,60,100" 
+                         selectionMode="single" selection="#{pilotosBean.selectedPiloto}" rowKey="#{piloto.name}"
+                         style="width: 100%;">
+						<f:facet name="header" >
+							<p:panelGrid style="margin:0px;">
+					            <p:column style="width: 90px;"></p:column>
+					            <p:column colspan="9">Season</p:column>
+					            <p:column colspan="9">Playoffs</p:column>
+							</p:panelGrid>
+						</f:facet>
+						
+						<p:column headerText="Nome" sortBy="#{piloto.name}" style="width: 100px;">
+							<h:outputText value="#{piloto.name}" />
+						</p:column>
+						<p:column headerText="Seasons" sortBy="#{18-piloto.careerLeft}" style="padding: 2px;">
+							<h:outputText value="#{18-piloto.careerLeft}" />
+						</p:column>
+						<p:column headerText="Points" sortBy="#{piloto.season.pts}">
+							<h:outputText value="#{piloto.season.pts}" />
+						</p:column>
+						<p:column headerText="1st" sortBy="#{piloto.season.p1st}">
+							<h:outputText value="#{piloto.season.p1st}" />
+						</p:column>
+						<p:column headerText="2nd" sortBy="#{piloto.season.p2nd}">
+							<h:outputText value="#{piloto.season.p2nd}" />
+						</p:column>
+						<p:column headerText="3rd" sortBy="#{piloto.season.p3rd}">
+							<h:outputText value="#{piloto.season.p3rd}" />
+						</p:column>
+						<p:column headerText="4th" sortBy="#{piloto.season.p4th}">
+							<h:outputText value="#{piloto.season.p4th}" />
+						</p:column>
+						<p:column headerText="5th" sortBy="#{piloto.season.p5th}">
+							<h:outputText value="#{piloto.season.p5th}" />
+						</p:column>
+						<p:column headerText="6th" sortBy="#{piloto.season.p6th}">
+							<h:outputText value="#{piloto.season.p6th}" />
+						</p:column>
+						<p:column id="wrSeason" sortBy="#{pilotosBean.genStats2(piloto.season).winRATE}"
+									style="padding: 2px;">
+							<f:facet name="header">
+							     <h:outputText value="WR" />
+							     <p:tooltip value="Win Rate" for="wrSeason" position="top" style="font-size: 10px;"/>
+							</f:facet>
+							<h:outputText value="#{pilotosBean.genStats2(piloto.season).winRATE}">
+								<f:convertNumber maxFractionDigits="3" groupingUsed="false" minFractionDigits="3" />
+							</h:outputText>
+						</p:column>
+						<p:column id="ptrSeason" sortBy="#{pilotosBean.genStats2(piloto.season).ptRATE}"
+									style="padding: 2px;">
+							<f:facet name="header">
+							     <h:outputText value="PTR" />
+							     <p:tooltip value="Point Rate" for="ptrSeason" position="top" style="font-size: 10px;"/>
+							</f:facet>
+							<h:outputText value="#{pilotosBean.genStats2(piloto.season).ptRATE}">
+								<f:convertNumber maxFractionDigits="3" groupingUsed="false" minFractionDigits="3" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column headerText="" style="width: 10px;">
+						</p:column>
+						
+						<p:column headerText="Playoffs" sortBy="#{piloto.medalCampPiloto.chances}" style="padding: 2px;">
+							<h:outputText value="#{piloto.medalCampPiloto.chances}" />
+						</p:column>
+						<p:column headerText="Points" sortBy="#{piloto.playoff.pts}">
+							<h:outputText value="#{piloto.playoff.pts}" />
+						</p:column>
+						<p:column headerText="1st" sortBy="#{piloto.playoff.p1st}">
+							<h:outputText value="#{piloto.playoff.p1st}" />
+						</p:column>
+						<p:column headerText="2nd" sortBy="#{piloto.playoff.p2nd}">
+							<h:outputText value="#{piloto.playoff.p2nd}" />
+						</p:column>
+						<p:column headerText="3rd" sortBy="#{piloto.playoff.p3rd}">
+							<h:outputText value="#{piloto.playoff.p3rd}" />
+						</p:column>
+						<p:column headerText="4th" sortBy="#{piloto.playoff.p4th}">
+							<h:outputText value="#{piloto.playoff.p4th}" />
+						</p:column>
+						<p:column headerText="5th" sortBy="#{piloto.playoff.p5th}">
+							<h:outputText value="#{piloto.playoff.p5th}" />
+						</p:column>
+						<p:column headerText="6th" sortBy="#{piloto.playoff.p6th}">
+							<h:outputText value="#{piloto.playoff.p6th}" />
+						</p:column>
+						<p:column id="wrPlayoff" sortBy="#{pilotosBean.genStats2(piloto.playoff).winRATE}"
+									style="padding: 2px;">
+							<f:facet name="header">
+							     <h:outputText value="WR" />
+							     <p:tooltip value="Win Rate" for="wrPlayoff" position="top" style="font-size: 10px;"/>
+							</f:facet>
+							<h:outputText value="#{pilotosBean.genStats2(piloto.playoff).winRATE}">
+								<f:convertNumber maxFractionDigits="3" groupingUsed="false" minFractionDigits="3" />
+							</h:outputText>
+						</p:column>
+						<p:column id="ptrPlayoff" sortBy="#{pilotosBean.genStats2(piloto.playoff).ptRATE}"
+									style="padding: 2px;">
+							<f:facet name="header">
+							     <h:outputText value="PTR" />
+							     <p:tooltip value="Point Rate" for="ptrPlayoff" position="top" style="font-size: 10px;"/>
+							</f:facet>
+							<h:outputText value="#{pilotosBean.genStats2(piloto.playoff).ptRATE}">
+								<f:convertNumber maxFractionDigits="3" groupingUsed="false" minFractionDigits="3" />
+							</h:outputText>
+						</p:column>
+						
 						
 					</p:dataTable>
 		        
