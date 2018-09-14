@@ -1,12 +1,13 @@
 package core;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Random;
 
 import core.annotations.JTableAnno;
 import core.enums.JTableMode;
 
-public class Piloto implements Serializable{
+public class Piloto implements Serializable, Comparable<Piloto>{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -16,6 +17,8 @@ public class Piloto implements Serializable{
 	public Double xp=0.0;
 	
 	public Integer careerLeft = 18;
+	
+	public Equipe equipe;
 	
 	private Medals medalCampPiloto = new Medals();
 	private Medals medalCampEquipe = new Medals();
@@ -212,6 +215,19 @@ public class Piloto implements Serializable{
 
 	public void setMedalCampEquipe(Medals medalCampEquipe) {
 		this.medalCampEquipe = medalCampEquipe;
+	}
+
+	@Override
+	public int compareTo(Piloto o) {
+		return this.name.compareToIgnoreCase(o.name);
+	}
+
+	public Equipe getEquipe() {
+		return equipe;
+	}
+
+	public void setEquipe(Equipe equipe) {
+		this.equipe = equipe;
 	}
 
 }

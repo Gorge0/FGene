@@ -24,11 +24,8 @@ public class Season implements Serializable{
 	
 	public ArrayList<Piloto> playoffs = new ArrayList<>();
 	public ArrayList<Piloto> playoffsEquipe = new ArrayList<>();
-	
-	//created v7.0
-	private HashMap<Piloto, Stats> seasonStats = new HashMap<>();
-	private HashMap<Piloto, Stats> pPlayoffStats = new HashMap<>();
-	private HashMap<Piloto, Stats> ePlayoffStats = new HashMap<>();
+	//created v6.8
+	public ArrayList<Equipe> eqsPlayoffsEquipe = new ArrayList<>();
 	
 	public Season(){
 		this.ano = FGene.getAllSeasons().size()+1;
@@ -199,21 +196,21 @@ public class Season implements Serializable{
 					e.getMedalCampEquipe().chances++;
 					flagP = false;
 				}
-				if(this.getEqsPlayoff().indexOf(FGene.getEquipeOfPiloto(this.equipes, p)) == 0){
+				if(this.getEqsPlayoffsEquipe().indexOf(FGene.getEquipeOfPiloto(this.equipes, p)) == 0){
 					pFGene.getMedalCampEquipe().gold++;
 					if(flagC){
 						e.getMedalCampEquipe().gold++;
 						flagC = false;
 					}
 				}
-				if(this.getEqsPlayoff().indexOf(FGene.getEquipeOfPiloto(this.equipes, p)) == 1){
+				if(this.getEqsPlayoffsEquipe().indexOf(FGene.getEquipeOfPiloto(this.equipes, p)) == 1){
 					pFGene.getMedalCampEquipe().silver++;
 					if(flagR){
 						e.getMedalCampEquipe().silver++;
 						flagR = false;
 					}
 				}
-				if(this.getEqsPlayoff().indexOf(FGene.getEquipeOfPiloto(this.equipes, p)) == 2){
+				if(this.getEqsPlayoffsEquipe().indexOf(FGene.getEquipeOfPiloto(this.equipes, p)) == 2){
 					pFGene.getMedalCampEquipe().bronze++;
 					if(flagB){
 						e.getMedalCampEquipe().bronze++;
@@ -255,7 +252,7 @@ public class Season implements Serializable{
 	
 	public void updateBonus(){
 		Equipe pChamp = FGene.getEquipe(FGene.getEquipeOfPiloto(this.equipes, this.playoffs.get(0)).name);
-		Equipe eChamp = FGene.getEquipe(this.getEqsPlayoff().get(0).name);
+		Equipe eChamp = FGene.getEquipe(this.getEqsPlayoffsEquipe().get(0).name);
 		Equipe rand = FGene.getEquipe(this.equipes.get(new Random().nextInt(this.equipes.size())).name);
 //		for(Equipe e : this.equipes){
 //			FGene.getEquipe(e.name).removeBonus();
@@ -330,8 +327,9 @@ public class Season implements Serializable{
 		
 	}
 	
-	public ArrayList<Equipe> getEqsPlayoff(){
+	public ArrayList<Equipe> getEqsPlayoffsEquipe(){
 		ArrayList<Equipe> eqs = new ArrayList<>();
+		ArrayList<Equipe> eqsSorted = new ArrayList<>();
 		for(Equipe e : this.equipes){
 			if(this.playoffsEquipe != null){
 				if(this.playoffsEquipe.contains(e.piloto1) && this.playoffsEquipe.contains(e.piloto2)){
@@ -339,8 +337,20 @@ public class Season implements Serializable{
 				}
 			}
 		}
-		eqs.sort((e2,e1) -> (Stats.somarStats(e1.piloto1.playoffEquipe, e1.piloto2.playoffEquipe, true).pts).compareTo(Stats.somarStats(e2.piloto1.playoffEquipe, e2.piloto2.playoffEquipe, true).pts));
-		return eqs;
+		
+		//changed v6.8
+//		eqs.sort((e2,e1) -> (Stats.somarStats(e1.piloto1.playoffEquipe, e1.piloto2.playoffEquipe, true).pts)
+//				.compareTo(Stats.somarStats(e2.piloto1.playoffEquipe, e2.piloto2.playoffEquipe, true).pts));
+		eqs.sort(Comparator.comparing((Equipe e1) -> (Stats.somarStats(e1.piloto1.playoffEquipe, e1.piloto2.playoffEquipe, true).pts))
+				.thenComparing(e1->(Stats.somarStats(e1.piloto1.playoffEquipe, e1.piloto2.playoffEquipe, true).p1st))
+				.thenComparing(e1->(Stats.somarStats(e1.piloto1.playoffEquipe, e1.piloto2.playoffEquipe, true).p2nd))
+				.thenComparing(e1->(Stats.somarStats(e1.piloto1.playoffEquipe, e1.piloto2.playoffEquipe, true).p3rd))
+				.thenComparing(e1->(Stats.somarStats(e1.piloto1.playoffEquipe, e1.piloto2.playoffEquipe, true).p4th))
+				.thenComparing(e1->(Stats.somarStats(e1.piloto1.playoffEquipe, e1.piloto2.playoffEquipe, true).p5th))
+				.thenComparing(e1->(Stats.somarStats(e1.piloto1.playoffEquipe, e1.piloto2.playoffEquipe, true).p6th)).reversed());
+		
+		this.eqsPlayoffsEquipe = eqs;
+		return this.eqsPlayoffsEquipe;
 	}
 	
 	@Override
@@ -409,12 +419,56 @@ public class Season implements Serializable{
 				List<Equipe> eqs = this.equipes.stream().sorted((e2,e1) -> e1.statsSeason.pts.compareTo(e2.statsSeason.pts)).collect(Collectors.toList());
 				value = (eqs.size() - eqs.indexOf(e)) - 1;
 				if(value > 14 && this.playoffsEquipe != null){
-					value = (eqs.size() - getEqsPlayoff().indexOf(e))-1;
+					value = (eqs.size() - getEqsPlayoffsEquipe().indexOf(e))-1;
 				}
 			}
 			return value;
 		}
 		return null;
+	}
+
+	public Integer getAno() {
+		return ano;
+	}
+
+	public void setAno(Integer ano) {
+		this.ano = ano;
+	}
+
+	public boolean isEnded() {
+		return isEnded;
+	}
+
+	public void setEnded(boolean isEnded) {
+		this.isEnded = isEnded;
+	}
+
+	public Vector<Equipe> getEquipes() {
+		return equipes;
+	}
+
+	public void setEquipes(Vector<Equipe> equipes) {
+		this.equipes = equipes;
+	}
+
+	public ArrayList<Piloto> getPlayoffs() {
+		return playoffs;
+	}
+
+	public void setPlayoffs(ArrayList<Piloto> playoffs) {
+		this.playoffs = playoffs;
+	}
+
+	public ArrayList<Piloto> getPlayoffsEquipe() {
+		return playoffsEquipe;
+	}
+
+	public void setPlayoffsEquipe(ArrayList<Piloto> playoffsEquipe) {
+		this.playoffsEquipe = playoffsEquipe;
+	}
+
+	public void setEqsPlayoffsEquipe(ArrayList<Equipe> eqsPlayoffsEquipe) {
+		this.eqsPlayoffsEquipe = eqsPlayoffsEquipe;
 	}
 
 	

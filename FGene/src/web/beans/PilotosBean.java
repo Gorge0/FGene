@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 import core.FGene;
@@ -14,7 +14,7 @@ import core.Stats;
 import core.Stats2;
 
 @Named
-@RequestScoped
+@ViewScoped
 public class PilotosBean implements Serializable{
 
 	private static final long serialVersionUID = 1L;
